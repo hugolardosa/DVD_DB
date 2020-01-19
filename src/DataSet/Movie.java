@@ -3,33 +3,65 @@ package DataSet;
 import java.util.Objects;
 
 public class Movie {
-    private int id;
     private String title;
     private String ogtitle;
     private int rating;
+    private int year;
+    private int time;
+    private String genere;
     private boolean seen;
+    private String coverpath;
     private boolean originalDVD;
 
-    public Movie(int id, String title, String ogtitle) {
-        this.id = id;
+    public Movie(String title, String ogtitle, boolean seen, boolean originalDVD, int year, int time, String genere, String coverpath) {
         this.title = title;
         this.ogtitle = ogtitle;
-        this.rating = 0;
-        this.seen = false;
-        this.originalDVD = true;
-    }
-
-    public Movie(int id, String title, String ogtitle, int rating, boolean seen, boolean ogDVD) {
-        this.id = id;
-        this.title = title;
-        this.ogtitle = ogtitle;
-        this.rating = rating;
+        this.year = year;
+        this.time = time;
+        this.genere = genere;
         this.seen = seen;
-        this.originalDVD = ogDVD;
+        this.coverpath = coverpath;
+        this.originalDVD = originalDVD;
     }
 
-    public int getId() {
-        return id;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setOgtitle(String ogtitle) {
+        this.ogtitle = ogtitle;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
+    }
+
+    public String getGenere() {
+        return genere;
+    }
+
+    public void setGenere(String genere) {
+        this.genere = genere;
+    }
+
+    public String getCoverpath() {
+        return coverpath;
+    }
+
+    public void setCoverpath(String coverpath) {
+        this.coverpath = coverpath;
     }
 
     public String getTitle() {
@@ -69,8 +101,7 @@ public class Movie {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Movie movie = (Movie) o;
-        return id == movie.id &&
-                rating == movie.rating &&
+        return  rating == movie.rating &&
                 seen == movie.seen &&
                 title.equals(movie.title) &&
                 ogtitle.equals(movie.ogtitle);
@@ -78,18 +109,17 @@ public class Movie {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, ogtitle, rating, seen);
+        return Objects.hash(title, ogtitle, rating, seen);
     }
 
     @Override
     public String toString() {
-        String s =  id + "\n" +
-                "Title -> " + title + '\n' +
-                "Og Title -> " + ogtitle + '\n' +
-                "Rating -> " + rating + "\n";
-        if(this.seen == true)s += "[Seen] \n";
-        else s+="[Not Seen] \n";
-        if(this.originalDVD == false)s+="[Not Original DVD] \n";
+        String s = "Title -> " + title + "; " +
+                "Og Title -> " + ogtitle + "; "+
+                "Rating -> " + rating + "; ";
+        if(this.seen == true)s += "[Seen] ;";
+        else s+="[Not Seen] ;";
+        if(this.originalDVD == false)s+="[Not Original DVD]";
         return s;
     }
 }
