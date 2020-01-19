@@ -1,8 +1,9 @@
 package DataSet;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Movie {
+public class Movie implements Serializable {
     private String title;
     private String ogtitle;
     private int rating;
@@ -114,9 +115,8 @@ public class Movie {
 
     @Override
     public String toString() {
-        String s = "Title -> " + title + "; " +
-                "Og Title -> " + ogtitle + "; "+
-                "Rating -> " + rating + "; ";
+        String s =  title + " | " + ogtitle + " | " +
+                "R:" + rating + " ";
         if(this.seen == true)s += "[Seen] ;";
         else s+="[Not Seen] ;";
         if(this.originalDVD == false)s+="[Not Original DVD]";

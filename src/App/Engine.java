@@ -2,18 +2,20 @@ package App;
 
 import DataSet.Movie;
 
-import java.sql.SQLOutput;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Engine {
+public class Engine implements Serializable {
     private ArrayList<Movie> movies;
 
     public Engine() {
         movies = new ArrayList<>();
     }
-
+    public ArrayList<Movie> getMovie(){
+        return movies;
+    }
     public void addMovie(Movie e) {
         movies.add(e);
     }
