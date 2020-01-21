@@ -41,7 +41,7 @@ public class DVDUtils {
         movies.sort(new Comparator<Movie>() {
             @Override
             public int compare(Movie movie, Movie t1) {
-                return movie.getTitle().compareToIgnoreCase(t1.getTitle());
+                return movie.getOrdertitle().compareToIgnoreCase(t1.getOrdertitle());
             }
         });
     }

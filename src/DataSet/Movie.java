@@ -1,11 +1,13 @@
 package DataSet;
 
 import java.io.Serializable;
+import java.text.Normalizer;
 import java.util.Objects;
 
 public class Movie implements Serializable {
     private String title;
     private String ogtitle;
+    private String ordertitle;
     private int rating;
     private int year;
     private int time;
@@ -14,9 +16,10 @@ public class Movie implements Serializable {
     private String coverpath;
     private boolean originalDVD;
 
-    public Movie(String title, String ogtitle, boolean seen, boolean originalDVD, int year, int time, String genere, String coverpath) {
+    public Movie(String title, String ogtitle,boolean seen, boolean originalDVD, int year, int time, String genere, String coverpath) {
         this.title = title;
         this.ogtitle = ogtitle;
+        this.ordertitle = stripAccents(this.title);
         this.year = year;
         this.time = time;
         this.genere = genere;
@@ -43,6 +46,14 @@ public class Movie implements Serializable {
 
     public int getTime() {
         return time;
+    }
+
+    public String getOrdertitle() {
+        return ordertitle;
+    }
+
+    public void setOrdertitle(String ordertitle) {
+        this.ordertitle = ordertitle;
     }
 
     public void setTime(int time) {
@@ -96,6 +107,14 @@ public class Movie implements Serializable {
     public void setSeen(boolean seen) {
         this.seen = seen;
     }
+
+    public static String stripAccents(String s)
+    {
+        s = Normalizer.normalize(s, Normalizer.Form.NFD);
+        s = s.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
+        return s;
+    }
+
 
     @Override
     public boolean equals(Object o) {

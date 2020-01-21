@@ -29,7 +29,7 @@ public class Engine implements Serializable {
     }
 
     public List<Movie> findMovie(String keyword) {
-        return movies.stream().filter(f -> f.getTitle().toLowerCase().contains(keyword.toLowerCase())).collect(Collectors.toList());
+        return movies.stream().filter(f -> f.getOrdertitle().toLowerCase().contains(keyword.toLowerCase())).collect(Collectors.toList());
     }
 
     public List<Movie> findMovieOgTitle(String keyword) {
