@@ -144,17 +144,12 @@ public class App implements Serializable {
         editMovieButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                JFrame frame = new JFrame("Edit Movies");
-                try {
-                    frame.setContentPane(new Edit(e.getMovie(),e).panel1);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-                frame.setLocationByPlatform(true);
-                frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-
-                frame.pack();
-                frame.setVisible(true);
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        new MovieTableCreator(e.getMovie());
+                    }
+                });
             }
         });
         removeMovieButton.addActionListener(new ActionListener() {
@@ -164,7 +159,9 @@ public class App implements Serializable {
                 System.out.println(searchword);
                 try {
                     JFrame framef = new JFrame("Found by Title");
-                    JScrollPane toList = new JScrollPane(tableCreatorFind(e.findMovie(searchword)));
+                    JTable t = tableCreatorFind(e.findMovie(searchword));
+                    JScrollPane toList = new JScrollPane(t);
+
                     framef.setContentPane(toList);
                     framef.setLocationByPlatform(true);
                     framef.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -189,9 +186,16 @@ public class App implements Serializable {
             }
         });
         setSeenButton.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-
+                String searchword = JOptionPane.showInputDialog("Search By Title");
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        new MovieTableCreator(e.findMovie(searchword));
+                    }
+                });
             }
         });
         exportToHTMLButton.addActionListener(new ActionListener() {
@@ -264,36 +268,12 @@ public class App implements Serializable {
         // The 0 argument is number rows.
         for (Movie m : movies) {
             BufferedImage myPicture = null;
-            //try {
-             //   myPicture = ImageIO.read(new File(m.getCoverpath().toLowerCase()));
-            //} catch (IOException ex) {
-              //  ex.printStackTrace();
-            //}
-            Object[] toAdd = {m.getTitle(), m.getOgtitle().equalsIgnoreCase("0") ? m.getTitle() : m.getOgtitle(), m.getOrdertitle(), m.isSeen() == true ? "X" : "", m.isOriginalDVD() == true ? "X" : "", m.getYear(), m.getTime(), m.getGenere(), "foto"};//new JLabel(new ImageIcon(myPicture))};
-            tableModel.addRow(toAdd);
-
-        }
-        JTable table = new JTable(tableModel);
-        table.setPreferredScrollableViewportSize(table.getPreferredSize());
-        return table;
-    }
-
-    public static JTable tableCreatorEdition(ArrayList<Movie> movies) {
-        String col[] = {"Title", "Original Title", "Ordering Title", "Seen", "Original DVD", "Production Year", "Running Time", "Genre", "Cover", "Edit?"};
-
-        DefaultTableModel tableModel = new DefaultTableModel(col, 0);
-        // The 0 argument is number rows.
-        for (Movie m : movies) {
-            BufferedImage myPicture = null;
-           /*
             try {
-                myPicture = ImageIO.read(new File(m.getCoverpath()));
+               myPicture = ImageIO.read(new File(m.getCoverpath().toLowerCase()));
             } catch (IOException ex) {
-                ex.printStackTrace();
+              ex.printStackTrace();
             }
-            ?/
-            */
-            Object[] toAdd = {m.getTitle(), m.getOgtitle().equalsIgnoreCase("0") ? m.getTitle() : m.getOgtitle(), m.getOrdertitle(), m.isSeen() == true ? "X" : "", m.isOriginalDVD() == true ? "X" : "", m.getYear(), m.getTime(), m.getGenere(),  "foto"};//new JLabel(new ImageIcon(myPicture)), ""};
+            Object[] toAdd = {m.getTitle(), m.getOgtitle().equalsIgnoreCase("0") ? m.getTitle() : m.getOgtitle(), m.getOrdertitle(), m.isSeen() == true ? "X" : "", m.isOriginalDVD() == true ? "X" : "", m.getYear(), m.getTime(), m.getGenere(), new JLabel(new ImageIcon(myPicture))};
             tableModel.addRow(toAdd);
 
         }
@@ -301,6 +281,7 @@ public class App implements Serializable {
         table.setPreferredScrollableViewportSize(table.getPreferredSize());
         return table;
     }
+
 
     public static JTable tableCreatorFind(java.util.List<Movie> movies) {
                     String col[] = {"Title", "Original Title", "Ordering Title", "Seen", "Original DVD", "Production Year", "Running Time", "Genre", "Cover"};
@@ -444,119 +425,7 @@ public class App implements Serializable {
 
     }
 
-    public void showEditMovie() {
-        JLabel jcomp1;
-        JTextField t;
-        JLabel jcomp3;
-        JTextField tOg;
-        JLabel jcomp5;
-        JTextField year;
-        JLabel jcomp7;
-        JTextField time;
-        JLabel jcomp9;
-        JTextField genere;
-        JLabel jcomp11;
-        JCheckBox seen;
-        JLabel jcomp13;
-        JCheckBox ogDVD;
-        JLabel jcomp15;
-        JButton find;
-        JButton save;
-        JButton cancel;
-
-        //construct components
-        jcomp1 = new JLabel("Title");
-        t = new JTextField(1);
-        jcomp3 = new JLabel("Original Title");
-        tOg = new JTextField(1);
-        jcomp5 = new JLabel("Year");
-        year = new JTextField(1);
-        jcomp7 = new JLabel("Running Time");
-        time = new JTextField(1);
-        jcomp9 = new JLabel("Genere");
-        genere = new JTextField(1);
-        jcomp11 = new JLabel("Seen");
-        seen = new JCheckBox("Was Seen");
-        jcomp13 = new JLabel("Original DVD");
-        ogDVD = new JCheckBox("Is Original");
-        jcomp15 = new JLabel("Cover Path");
-        find = new JButton("Find");
-        JTextField path = new JTextField(1);
-        save = new JButton("Save");
-        cancel = new JButton("Cancel");
-
-        JPanel p1 = new JPanel();
-        //adjust size and set layout
-        p1.setPreferredSize(new Dimension(667, 379));
-        GridLayout layout = new GridLayout(9, 2, 5, 4);
-        p1.setLayout(layout);
-
-        //add components
-        p1.add(jcomp1);
-        p1.add(t);
-        p1.add(jcomp3);
-        p1.add(tOg);
-        p1.add(jcomp5);
-        p1.add(year);
-        p1.add(jcomp7);
-        p1.add(time);
-        p1.add(jcomp9);
-        p1.add(genere);
-        p1.add(jcomp11);
-        p1.add(seen);
-        p1.add(jcomp13);
-        p1.add(ogDVD);
-        p1.add(jcomp15);
-        p1.add(find);
-        p1.add(path);
-        p1.add(save);
-        p1.add(cancel);
-
-        JFrame frame = new JFrame("Movie Editor");
-        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        frame.getContentPane().add(p1);
-        frame.pack();
-        frame.setVisible(true);
-
-
-        find.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                path.setText(shownavigator());
-            }
-        });
-        save.addActionListener(b -> {
-
-            String titulo = t.getText();
-            String tituloOg = tOg.getText();
-            int y = 0;
-            int tim = 0;
-            try {
-                y = Integer.parseInt(year.getText());
-                tim = Integer.parseInt(time.getText());
-            } catch (NumberFormatException f) {
-                JOptionPane.showMessageDialog(null, "Not a valid number on field year, or Running time");
-            }
-            e.addMovie(new Movie(t.getText(), tOg.getText(), seen.isSelected(), ogDVD.isSelected(), y, tim, genere.getText(), path.getText()));
-
-        });
-    }
-
     public static void main(String[] args) {
-        try {
-            // Set cross-platform Java L&F (also called "Metal")
-            UIManager.setLookAndFeel(
-                    UIManager.getCrossPlatformLookAndFeelClassName());
-        } catch (UnsupportedLookAndFeelException e) {
-            // handle exception
-        } catch (ClassNotFoundException e) {
-            // handle exception
-        } catch (InstantiationException e) {
-            // handle exception
-        } catch (IllegalAccessException e) {
-            // handle exception
-        }
         JFrame frame = new JFrame("DVD BD");
         frame.setContentPane(new App().panel1);
         frame.setLocationByPlatform(true);

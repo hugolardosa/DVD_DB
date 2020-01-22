@@ -5,7 +5,6 @@ import DataSet.Movie;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URI;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -60,12 +59,35 @@ public class DVDUtils {
         toFile.println("<html>");
         toFile.println("<head>");
         toFile.println("<title> DVD DB</title>");
-        toFile.println("</head>");
+        toFile.println("<style>");
+        toFile.println("#movies {");
+        toFile.println("border-collapse: collapse;");
+        toFile.println("width: 100%;");
+        toFile.println("}");
+
+        toFile.println("#movies td, #movies th {");
+        toFile.println("            border: 1px solid #ddd;");
+        toFile.println("            padding: 8px;");
+        toFile.println("       }");
+
+        toFile.println("#movies tr:nth-child(even){background-color: #f2f2f2;}");
+
+        toFile.println(" #movies tr:hover {background-color: #ddd;}");
+
+        toFile.println("#movies th {");
+        toFile.println("           padding-top: 12px;");
+        toFile.println("           padding-bottom: 12px;");
+        toFile.println("           text-align: left;");
+        toFile.println("            background-color: #4CAF50;");
+        toFile.println(" color:white;");
+        toFile.println("}");
+        toFile.println("</style>");
+                toFile.println("</head>");
         toFile.println("<body>");
 
         toFile.println("<h2>Movie Database</h2>");
 
-        toFile.println("<table>");
+        toFile.println("<table id= " + '"' + "movies" + '"' + ">");
         toFile.println("<tr>");
         toFile.println("<th>Title</th>");
         toFile.println("<th> Original Title </th> ");
@@ -78,7 +100,8 @@ public class DVDUtils {
         toFile.println("<th> Cover </th> ");
         toFile.println("  </tr > ");
 
-        for (Movie m : moveis) {
+        for (
+                Movie m : moveis) {
             toFile.println("<tr>");
             toFile.println("<td>" + m.getTitle() + "</td>");
             toFile.println("<td>" + m.getOgtitle() + "</td>");

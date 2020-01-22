@@ -16,7 +16,7 @@ public class Movie implements Serializable {
     private String coverpath;
     private boolean originalDVD;
 
-    public Movie(String title, String ogtitle,boolean seen, boolean originalDVD, int year, int time, String genere, String coverpath) {
+    public Movie(String title, String ogtitle, boolean seen, boolean originalDVD, int year, int time, String genere, String coverpath) {
         this.title = title;
         this.ogtitle = ogtitle;
         this.ordertitle = stripAccents(this.title);
