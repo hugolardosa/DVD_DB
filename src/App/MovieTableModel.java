@@ -14,7 +14,7 @@ public class MovieTableModel extends AbstractTableModel {
             "Title", "Original Title", "Ordering Title", "Seen", "Original DVD", "Production Year", "Running Time", "Genre", "Cover"
     };
     private final Class[] columnClass = new Class[]{
-            String.class,String.class,String.class, Boolean.class,Boolean.class, Integer.class, Integer.class, String.class, JLabel.class
+            String.class,String.class,String.class, Boolean.class,Boolean.class, Integer.class, Integer.class, String.class, String.class
     };
 
     public MovieTableModel(List<Movie> m) {
@@ -61,9 +61,7 @@ public class MovieTableModel extends AbstractTableModel {
         }else if (7 == columnIndex) {
             return row.getGenere();
         }else if (8 == columnIndex) {
-            ImageIcon image = new ImageIcon(row.getCoverpath());
-            JLabel imagelabel = new JLabel(image, JLabel.CENTER);
-            return imagelabel;
+            return row.getCoverpath();
         }
 
         return null;
@@ -93,6 +91,8 @@ public class MovieTableModel extends AbstractTableModel {
             row.setTime((Integer) aValue);
         }else if (7 == columnIndex) {
             row.setGenere((String) aValue);
+        }else if (8 == columnIndex) {
+             row.setCoverpath((String) aValue);
         }
     }
 

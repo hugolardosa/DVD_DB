@@ -155,21 +155,14 @@ public class App implements Serializable {
         removeMovieButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                String searchword = JOptionPane.showInputDialog("Search By Title");
-                System.out.println(searchword);
-                try {
-                    JFrame framef = new JFrame("Found by Title");
-                    JTable t = tableCreatorFind(e.findMovie(searchword));
-                    JScrollPane toList = new JScrollPane(t);
-
-                    framef.setContentPane(toList);
-                    framef.setLocationByPlatform(true);
-                    framef.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-                    framef.pack();
-                    framef.setVisible(true);
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, "Not Found");
-                }
+                EventQueue.invokeLater(new Runnable()
+                {
+                    String searchword = JOptionPane.showInputDialog("Search By Title");
+                    public void run()
+                    {
+                        ItemDeletion.createAndShowGUI(e.findMovie(searchword));
+                    }
+                });
             }
         });
         sortDatabaseButton.addActionListener(new ActionListener() {
@@ -273,7 +266,7 @@ public class App implements Serializable {
             } catch (IOException ex) {
               ex.printStackTrace();
             }
-            Object[] toAdd = {m.getTitle(), m.getOgtitle().equalsIgnoreCase("0") ? m.getTitle() : m.getOgtitle(), m.getOrdertitle(), m.isSeen() == true ? "X" : "", m.isOriginalDVD() == true ? "X" : "", m.getYear(), m.getTime(), m.getGenere(), new JLabel(new ImageIcon(myPicture))};
+            Object[] toAdd = {m.getTitle(), m.getOgtitle().equalsIgnoreCase("0") ? m.getTitle() : m.getOgtitle(), m.getOrdertitle(), m.isSeen() == true ? "X" : "", m.isOriginalDVD() == true ? "X" : "", m.getYear(), m.getTime(), m.getGenere(), m.getCoverpath()};
             tableModel.addRow(toAdd);
 
         }
@@ -297,7 +290,7 @@ public class App implements Serializable {
                 ex.printStackTrace();
             }
             */
-            Object[] toAdd = {m.getTitle(), m.getOgtitle().equalsIgnoreCase("0") ? m.getTitle() : m.getOgtitle(), m.getOrdertitle(), m.isSeen() == true ? "X" : "", m.isOriginalDVD() == true ? "X" : "", m.getYear(), m.getTime(), m.getGenere(),  "foto"};//new JLabel(new ImageIcon(myPicture))};
+            Object[] toAdd = {m.getTitle(), m.getOgtitle().equalsIgnoreCase("0") ? m.getTitle() : m.getOgtitle(), m.getOrdertitle(), m.isSeen() == true ? "X" : "", m.isOriginalDVD() == true ? "X" : "", m.getYear(), m.getTime(), m.getGenere(),  m.getCoverpath()};//new JLabel(new ImageIcon(myPicture))};
             tableModel.addRow(toAdd);
 
         }
@@ -422,7 +415,9 @@ public class App implements Serializable {
             JOptionPane.showMessageDialog(null, "Added Successfully");
             frame.hide();
         });
-
+        cancel.addActionListener(bb -> {
+            frame.hide();
+        });
     }
 
     public static void main(String[] args) {
