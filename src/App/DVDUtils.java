@@ -2,7 +2,9 @@ package App;
 
 import DataSet.Movie;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URI;
 import java.nio.file.*;
 import java.util.ArrayList;
@@ -44,6 +46,61 @@ public class DVDUtils {
                 return movie.getOrdertitle().compareToIgnoreCase(t1.getOrdertitle());
             }
         });
+    }
+
+    public static void exportHtml(List<Movie> moveis) {
+        PrintWriter toFile = null;
+        try {
+            toFile = new PrintWriter("index.html");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        toFile.println("<!DOCTYPE html>");
+        toFile.println("<html>");
+        toFile.println("<head>");
+        toFile.println("<title> DVD DB</title>");
+        toFile.println("</head>");
+        toFile.println("<body>");
+
+        toFile.println("<h2>Movie Database</h2>");
+
+        toFile.println("<table>");
+        toFile.println("<tr>");
+        toFile.println("<th>Title</th>");
+        toFile.println("<th> Original Title </th> ");
+        toFile.println("<th> Ordering Title </th> ");
+        toFile.println("<th> Seen </th> ");
+        toFile.println("<th> Original DVD </th>");
+        toFile.println("<th> Production Year </th> ");
+        toFile.println("<th> Running Time </th> ");
+        toFile.println("<th> Genre </th> ");
+        toFile.println("<th> Cover </th> ");
+        toFile.println("  </tr > ");
+
+        for (Movie m : moveis) {
+            toFile.println("<tr>");
+            toFile.println("<td>" + m.getTitle() + "</td>");
+            toFile.println("<td>" + m.getOgtitle() + "</td>");
+            toFile.println("<td>" + m.getOrdertitle() + "</td>");
+            String seen = "";
+            if (m.isSeen() == true) seen = "X";
+            toFile.println("<td>" + seen + "</td>");
+            String ogDVD = "";
+            if (m.isOriginalDVD() == true) ogDVD = "X";
+            toFile.println("<td>" + ogDVD + "</td>");
+            toFile.println("<td>" + m.getYear() + "</td>");
+            toFile.println("<td>" + m.getTime() + "</td>");
+            toFile.println("<td>" + m.getGenere() + "</td>");
+            toFile.println("<td>" + "<img src=" + m.getCoverpath() + " alt=" + '"' + m.getOrdertitle().toLowerCase() + '"' + " height=110 width=95>" + "</td>");
+            toFile.println("</tr>");
+        }
+        toFile.println("</table > ");
+
+        toFile.println("</body > ");
+        toFile.println("</html > ");
+
+
     }
 
 

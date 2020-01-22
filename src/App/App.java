@@ -2,6 +2,7 @@ package App;
 
 import DataSet.Movie;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
@@ -12,6 +13,7 @@ import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -28,6 +30,7 @@ public class App implements Serializable {
     private JButton editMovieButton;
     private JButton sortDatabaseButton;
     private JButton setSeenButton;
+    private JButton exportToHTMLButton;
     private JScrollPane scrollTable;
     private JTable table1;
     private Engine e;
@@ -142,7 +145,11 @@ public class App implements Serializable {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 JFrame frame = new JFrame("Edit Movies");
-                frame.setContentPane(new Edit(e.getMovie(),e).panel1);
+                try {
+                    frame.setContentPane(new Edit(e.getMovie(),e).panel1);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 frame.setLocationByPlatform(true);
                 frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
@@ -185,6 +192,18 @@ public class App implements Serializable {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
 
+            }
+        });
+        exportToHTMLButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                try {
+                    JOptionPane.showConfirmDialog(null, "Do you want to export to HTML?");
+                    DVDUtils.exportHtml(e.getMovie());
+                    JOptionPane.showMessageDialog(null,"Exported!");
+                }catch (Exception exp){
+                    JOptionPane.showMessageDialog(null,"ERROR!");
+                }
             }
         });
     }
@@ -244,8 +263,13 @@ public class App implements Serializable {
         DefaultTableModel tableModel = new DefaultTableModel(col, 0);
         // The 0 argument is number rows.
         for (Movie m : movies) {
-            ImageIcon icon = new ImageIcon(m.getCoverpath());
-            Object[] toAdd = {m.getTitle(), m.getOgtitle().equalsIgnoreCase("0") ? m.getTitle() : m.getOgtitle(), m.getOrdertitle(), m.isSeen() == true ? "X" : "", m.isOriginalDVD() == true ? "X" : "", m.getYear(), m.getTime(), m.getGenere(), icon};
+            BufferedImage myPicture = null;
+            //try {
+             //   myPicture = ImageIO.read(new File(m.getCoverpath().toLowerCase()));
+            //} catch (IOException ex) {
+              //  ex.printStackTrace();
+            //}
+            Object[] toAdd = {m.getTitle(), m.getOgtitle().equalsIgnoreCase("0") ? m.getTitle() : m.getOgtitle(), m.getOrdertitle(), m.isSeen() == true ? "X" : "", m.isOriginalDVD() == true ? "X" : "", m.getYear(), m.getTime(), m.getGenere(), "foto"};//new JLabel(new ImageIcon(myPicture))};
             tableModel.addRow(toAdd);
 
         }
@@ -260,8 +284,16 @@ public class App implements Serializable {
         DefaultTableModel tableModel = new DefaultTableModel(col, 0);
         // The 0 argument is number rows.
         for (Movie m : movies) {
-            ImageIcon icon = new ImageIcon(m.getCoverpath());
-            Object[] toAdd = {m.getTitle(), m.getOgtitle().equalsIgnoreCase("0") ? m.getTitle() : m.getOgtitle(), m.getOrdertitle(), m.isSeen() == true ? "X" : "", m.isOriginalDVD() == true ? "X" : "", m.getYear(), m.getTime(), m.getGenere(), icon, ""};
+            BufferedImage myPicture = null;
+           /*
+            try {
+                myPicture = ImageIO.read(new File(m.getCoverpath()));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            ?/
+            */
+            Object[] toAdd = {m.getTitle(), m.getOgtitle().equalsIgnoreCase("0") ? m.getTitle() : m.getOgtitle(), m.getOrdertitle(), m.isSeen() == true ? "X" : "", m.isOriginalDVD() == true ? "X" : "", m.getYear(), m.getTime(), m.getGenere(),  "foto"};//new JLabel(new ImageIcon(myPicture)), ""};
             tableModel.addRow(toAdd);
 
         }
@@ -271,13 +303,20 @@ public class App implements Serializable {
     }
 
     public static JTable tableCreatorFind(java.util.List<Movie> movies) {
-        String col[] = {"Title", "Original Title", "Ordering Title", "Seen", "Original DVD", "Production Year", "Running Time", "Genre", "Cover"};
+                    String col[] = {"Title", "Original Title", "Ordering Title", "Seen", "Original DVD", "Production Year", "Running Time", "Genre", "Cover"};
 
         DefaultTableModel tableModel = new DefaultTableModel(col, 0);
         // The 0 argument is number rows.
         for (Movie m : movies) {
-            ImageIcon icon = new ImageIcon(m.getCoverpath());
-            Object[] toAdd = {m.getTitle(), m.getOgtitle().equalsIgnoreCase("0") ? m.getTitle() : m.getOgtitle(), m.getOrdertitle(), m.isSeen() == true ? "X" : "", m.isOriginalDVD() == true ? "X" : "", m.getYear(), m.getTime(), m.getGenere(), icon};
+            BufferedImage myPicture = null;
+            /*
+            try {
+                myPicture = ImageIO.read(new File(m.getCoverpath()));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            */
+            Object[] toAdd = {m.getTitle(), m.getOgtitle().equalsIgnoreCase("0") ? m.getTitle() : m.getOgtitle(), m.getOrdertitle(), m.isSeen() == true ? "X" : "", m.isOriginalDVD() == true ? "X" : "", m.getYear(), m.getTime(), m.getGenere(),  "foto"};//new JLabel(new ImageIcon(myPicture))};
             tableModel.addRow(toAdd);
 
         }

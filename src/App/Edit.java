@@ -5,6 +5,7 @@ import DataSet.Movie;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Edit {
@@ -13,7 +14,7 @@ public class Edit {
     private JButton editButton;
 
 
-    public Edit(ArrayList<Movie> filmes, Engine e) {
+    public Edit(ArrayList<Movie> filmes, Engine e) throws IOException {
         table1 = App.tableCreatorEdition(filmes);
         editButton.addActionListener(new ActionListener() {
 
