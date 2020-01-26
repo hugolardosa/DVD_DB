@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 
 public class DVDUtils {
@@ -82,7 +83,7 @@ public class DVDUtils {
         toFile.println(" color:white;");
         toFile.println("}");
         toFile.println("</style>");
-                toFile.println("</head>");
+        toFile.println("</head>");
         toFile.println("<body>");
 
         toFile.println("<h2>Movie Database</h2>");
@@ -123,8 +124,20 @@ public class DVDUtils {
         toFile.println("</body > ");
         toFile.println("</html > ");
 
-
+        toFile.close();
     }
 
-
+    public static void exportCSV(ArrayList<Movie> movies) {
+        PrintWriter toFile = null;
+        try {
+            toFile = new PrintWriter("exportedCollection.csv");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        toFile.printf("\"%s\";\"%s\";\"%s\";\"%s\";\"%s\";\"%s\";\"%s\";\"%s\";\"%s\"\n", "Title", "Original Title", "Ordering Title", "Seen", "Original DVD", "Production Year", "Running Time", "Genre", "Cover");
+        for (Movie m : movies) {
+            toFile.printf("\"%s\";\"%s\";\"%s\";%b;%b;%d;%d;\"%s\";\"%s\"\n", m.getTitle(), m.getOgtitle().equalsIgnoreCase("0") ? m.getTitle() : m.getOgtitle(), m.getOrdertitle(), m.isSeen(), m.isOriginalDVD(), m.getYear(), m.getTime(), m.getGenere(), m.getCoverpath());
+        }
+        toFile.close();
+    }
 }

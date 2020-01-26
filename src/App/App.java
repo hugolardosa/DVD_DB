@@ -31,6 +31,7 @@ public class App implements Serializable {
     private JButton sortDatabaseButton;
     private JButton setSeenButton;
     private JButton exportToHTMLButton;
+    private JButton exportCSVButton;
     private JScrollPane scrollTable;
     private JTable table1;
     private Engine e;
@@ -203,6 +204,18 @@ public class App implements Serializable {
                 }
             }
         });
+        exportCSVButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                try {
+                    JOptionPane.showConfirmDialog(null, "Do you want to export to CSV?");
+                    DVDUtils.exportCSV(e.getMovie());
+                    JOptionPane.showMessageDialog(null,"Exported!");
+                }catch (Exception exp){
+                    JOptionPane.showMessageDialog(null,"ERROR!");
+                }
+            }
+        });
     }
 
     //mostra o navegador de ficheiros
@@ -277,7 +290,7 @@ public class App implements Serializable {
 
 
     public static JTable tableCreatorFind(java.util.List<Movie> movies) {
-                    String col[] = {"Title", "Original Title", "Ordering Title", "Seen", "Original DVD", "Production Year", "Running Time", "Genre", "Cover"};
+                                    String col[] = {"Title", "Original Title", "Ordering Title", "Seen", "Original DVD", "Production Year", "Running Time", "Genre", "Cover"};
 
         DefaultTableModel tableModel = new DefaultTableModel(col, 0);
         // The 0 argument is number rows.
